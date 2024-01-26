@@ -1,0 +1,13 @@
+# Also shamelessly stolen from Brandon B. Jozsa<bjozsa@redhat.com>
+FROM        quay.io/fedora/fedora:39
+LABEL       description="PowerDNS Recursor Image"
+RUN         yum -yy install \
+                pdns-recursor \
+                pdns-backend-mysql \
+                bind-utils && \
+            yum clean all && \
+            rm -rf /var/cache/yum
+RUN         mkdir -p /run/pdns-recursor
+USER        pdns-recursor
+EXPOSE      5353 5353/udp
+ENTRYPOINT  ["/usr/sbin/pdns_recursor"]

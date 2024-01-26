@@ -1,4 +1,5 @@
 #Also stolen from Brandon B. Jozsa<bjozsa@redhat.com>
+# Pretty sure DB_DIR_IMPORT does nothing, but I'm leaving it in for now
 FROM registry.redhat.io/rhel9/mysql-80:1-296
 LABEL       description="MySQL Image for PDNS"
 ENV         MYSQL_PORT=3306 \
