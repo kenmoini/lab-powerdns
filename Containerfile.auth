@@ -8,8 +8,8 @@ RUN         yum -yy install \
             yum clean all && \
             rm -rf /var/cache/yum
 RUN         mkdir -p /etc/powerdns/pdns.d /var/run/pdns /var/lib/powerdns /etc/powerdns/templates.d && \
-            adduser --system --no-create-home --user-group --uid 953 pdns && \
             chown pdns:pdns /var/run/pdns /var/lib/powerdns /etc/powerdns/pdns.d /etc/powerdns/templates.d
+            #adduser --system --no-create-home --user-group --uid 953 pdns && \
 # Config is mounted as a ConfigMap/Volume
 #COPY        ./pdns.conf /etc/pdns/pdns.conf
 USER        pdns
