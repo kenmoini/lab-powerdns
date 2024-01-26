@@ -7,7 +7,8 @@ RUN         yum -yy install \
                 bind-utils && \
             yum clean all && \
             rm -rf /var/cache/yum
-RUN         mkdir -p /run/pdns-recursor
+RUN         mkdir -p /run/pdns-recursor && \
+            chown pdns-recursor:pdns-recursor /run/pdns-recursor
 USER        pdns-recursor
 EXPOSE      5353 5353/udp
 ENTRYPOINT  ["/usr/sbin/pdns_recursor"]
