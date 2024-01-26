@@ -1,0 +1,14 @@
+# Shamelessly stolen from  Brandon B. Jozsa<bjozsa@redhat.com>
+FROM        quay.io/fedora/fedora:39
+LABEL       description="PowerDNS Image"
+RUN         yum -yy install \
+                pdns \
+                pdns-backend-mysql \
+                bind-utils && \
+            yum clean all && \
+            rm -rf /var/cache/yum
+RUN         mkdir -p /run/pdns-recursor
+# Config is mounted as a ConfigMap/Volume
+#COPY        ./pdns.conf /etc/pdns/pdns.conf
+EXPOSE      53 53/udp
+ENTRYPOINT  ["/usr/sbin/pdns_server"]
