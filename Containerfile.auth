@@ -7,8 +7,11 @@ RUN         yum -yy install \
                 bind-utils && \
             yum clean all && \
             rm -rf /var/cache/yum
-RUN         mkdir -p /run/pdns-recursor
+RUN         mkdir -p /etc/powerdns/pdns.d /var/run/pdns /var/lib/powerdns /etc/powerdns/templates.d && \
+            adduser --system --disabled-password --disabled-login --no-create-home --group pdns --uid 953 && \
+            chown pdns:pdns /var/run/pdns /var/lib/powerdns /etc/powerdns/pdns.d /etc/powerdns/templates.d
 # Config is mounted as a ConfigMap/Volume
 #COPY        ./pdns.conf /etc/pdns/pdns.conf
-EXPOSE      53 53/udp
+USER        pdns
+EXPOSE      5353 5353/udp
 ENTRYPOINT  ["/usr/sbin/pdns_server"]
