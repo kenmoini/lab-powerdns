@@ -14,5 +14,6 @@ https://catalog.redhat.com/software/containers/rhel8/mysql-80/5ba0ad4cdd19c70b45
 EXPOSE      3306
 USER        27
 COPY        --chown=27:27 ./config/mysql /opt/pdns/mysql/init
+COPY        --chown=27:27 ./config/mysql /opt/app-root/src
 ENTRYPOINT  ["container-entrypoint"]
 CMD         ["run-mysqld"]
