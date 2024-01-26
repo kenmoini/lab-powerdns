@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - Containerfile.auth
+      #- Containerfile.auth
       - .github/workflows/build-auth-container.yml
 
   # Schedule workflow run at 00:00 on Sunday
