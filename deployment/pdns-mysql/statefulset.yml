@@ -14,6 +14,9 @@ spec:
       labels:
         app: lab-pdns-mysql
     spec:
+      # kubectl create secret ghcr-pull-secret regcred --docker-server=ghcr.io --docker-username=kenmoini --docker-password=$REG_TOKEN --docker-email=ken@kenmoini.com -n lab-dns-mysql
+      imagePullSecrets:
+        - name: ghcr-pull-secret
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -37,8 +40,7 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "0.5"
-          image: >-
-            image-registry.openshift-image-registry.svc:5000/openshift/httpd:latest
+          image: ghcr.io/kenmoini/lab-powerdns:mysql-f65d6e2
           ports:
             - containerPort: 3306
               name: mysql
