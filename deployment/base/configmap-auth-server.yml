@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-server-config
+data:
+  pdns.conf: |
+    launch=gmysql
+    gmysql-host=lab-pdns-mysql.lab-pdns-mysql.svc.cluster.local
+    gmysql-user=pdnsadmin
+    gmysql-dbname=pdns
+    gmysql-password=pdnsadmin
+    gmysql-dnssec=yes
+    api=yes
+    api-key=supersecretapikey
+    webserver=yes
+    webserver-port=8081
+    webserver-allow-from=10.0.0.0/8
+    master=yes
+    local-address=127.0.0.1
+    local-port=5300
+    slave-cycle-interval=60
+    default-soa-edit=INCEPTION-INCREMENT
+    default-soa-content=ns1.@ admin.@ 0 10800 3600 604800 3600
+    enable-lua-records=yes

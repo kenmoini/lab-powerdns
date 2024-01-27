@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: lab-ns-2
+
+resources:
+  - ../../base/
+  - namespace.yml
+  - deployment-auth.yml
+  - deployment-recursor.yml
+  - services.yml
+
+commonLabels:
+  app: lab-ns-2
+  service: lab-ns
+  component: lab-ns-auth

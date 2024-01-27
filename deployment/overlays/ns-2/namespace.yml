@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lab-ns-2
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  labels:
+    app: lab-ns-2
+    service: lab-ns
+    component: lab-ns-auth

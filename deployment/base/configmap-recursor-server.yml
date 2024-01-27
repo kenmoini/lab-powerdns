@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: recursor-server-config
+data:
+  recursor.conf: |
+    forward-zones=kemo.labs=127.0.0.1:5300
+    forward-zones+=kemo.network=127.0.0.1:5300
+    forward-zones-recurse=.=192.168.42.11, .=192.168.42.12
+    local-address=0.0.0.0
+    local-port=5353
+    trace=on
+    allow-from=127.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 169.254.0.0/16, 192.168.0.0/16, 172.16.0.0/12, ::1/128, fc00::/7, fe80::/10
+    security-poll-suffix=
+    setgid=pdns-recursor
+    setuid=pdns-recursor
+    dnssec=off
