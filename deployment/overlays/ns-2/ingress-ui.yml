@@ -20,3 +20,25 @@ spec:
             name: lab-ns-2-ui
             port:
               number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-ns-api-2
+  labels:
+    app: lab-ns-2
+    service: lab-ns
+    component: lab-ns-auth
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: ns2-api.apps.k8s.kemo.labs
+    http:
+      paths:
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: lab-ns-2-auth
+            port:
+              number: 8081
