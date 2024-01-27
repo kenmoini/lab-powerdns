@@ -16,7 +16,7 @@ mkdir -p /opt/pdns/data/{mysql,web-ui}
 chown 27:27 /opt/pdns/data/mysql
 chown 100:101 /opt/pdns/data/web-ui
 
-# Create the Pod - ports are HOST:CONTAINER
+# Create the Pod
 podman pod create --name pdns --network lanBridge --ip "192.168.42.39" -p 5300 -p 5353 -p 3306 -p 80
 
 # Setup the Database
