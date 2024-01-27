@@ -35,10 +35,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                  - lab-ns-2
+                  - key: app
+                    operator: In
+                    values:
+                      - lab-ns-2
               topologyKey: "kubernetes.io/hostname"
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
