@@ -5,7 +5,7 @@ metadata:
 data:
   pdns.conf: |
     launch=gmysql
-    gmysql-host=lab-pdns-mysql.lab-pdns-mysql.svc.cluster.local
+    gmysql-host=lab-pdns-mysql.lab-dns-mysql.svc.cluster.local
     gmysql-user=pdnsadmin
     gmysql-dbname=pdns
     gmysql-password=pdnsadmin
