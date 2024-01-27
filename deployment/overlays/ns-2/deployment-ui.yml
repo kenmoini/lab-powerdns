@@ -7,12 +7,14 @@ metadata:
     app: lab-ns-2
     service: lab-ns
     component: lab-ns-ui
+    id: lab-ns-ui-2
 spec:
   selector:
     matchLabels:
       app: lab-ns-2
       service: lab-ns
       component: lab-ns-ui
+      id: lab-ns-ui-2
   replicas: 1
   template:
     metadata:
@@ -20,6 +22,7 @@ spec:
         app: lab-ns-2
         service: lab-ns
         component: lab-ns-ui
+        id: lab-ns-ui-2
     spec:
       securityContext:
         runAsUser: 100

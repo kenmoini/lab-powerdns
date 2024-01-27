@@ -7,6 +7,7 @@ metadata:
     app: lab-ns-2
     service: lab-ns
     component: lab-ns-auth
+    id: lab-ns-auth-2
   #annotations:
   #  metallb.universe.tf/loadBalancerIPs: 192.168.42.10
   #  metallb.universe.tf/address-pool: lab-pool
@@ -26,9 +27,7 @@ spec:
       targetPort: 8081
       name: api-tcp
   selector:
-    app: lab-ns-2
-    service: lab-ns
-    component: lab-ns-auth
+    id: lab-ns-auth-2
   type: ClusterIP
 ---
 apiVersion: v1
@@ -39,6 +38,7 @@ metadata:
     app: lab-ns-2
     service: lab-ns
     component: lab-ns-auth
+    id: lab-ns-auth-2
   annotations:
     metallb.universe.tf/loadBalancerIPs: 192.168.42.10
     metallb.universe.tf/address-pool: lab-pool
@@ -54,9 +54,7 @@ spec:
       targetPort: 8081
       name: api-tcp
   selector:
-    app: lab-ns-2
-    service: lab-ns
-    component: lab-ns-auth
+    id: lab-ns-auth-2
   type: LoadBalancer
 ---
 apiVersion: v1
@@ -67,6 +65,7 @@ metadata:
     app: lab-ns-2
     service: lab-ns
     component: lab-ns-auth
+    id: lab-ns-auth-2
   annotations:
     metallb.universe.tf/loadBalancerIPs: 192.168.42.10
     metallb.universe.tf/address-pool: lab-pool
@@ -78,9 +77,7 @@ spec:
       targetPort: 5300
       name: dns-udp
   selector:
-    app: lab-ns-2
-    service: lab-ns
-    component: lab-ns-auth
+    id: lab-ns-auth-2
   type: LoadBalancer
 ---
 apiVersion: v1
@@ -91,6 +88,7 @@ metadata:
     app: lab-ns-2
     service: lab-ns
     component: lab-ns-recursor
+    id: lab-ns-recursor-2
   annotations:
     metallb.universe.tf/loadBalancerIPs: 192.168.42.10
     metallb.universe.tf/address-pool: lab-pool
@@ -106,9 +104,7 @@ spec:
       targetPort: 5353
       name: dns-tcp-primary
   selector:
-    app: lab-ns-2
-    service: lab-ns
-    component: lab-ns-recursor
+    id: lab-ns-recursor-2
   type: LoadBalancer
 ---
 apiVersion: v1
@@ -119,6 +115,7 @@ metadata:
     app: lab-ns-2
     service: lab-ns
     component: lab-ns-recursor
+    id: lab-ns-recursor-2
   annotations:
     metallb.universe.tf/loadBalancerIPs: 192.168.42.10
     metallb.universe.tf/address-pool: lab-pool
@@ -134,9 +131,7 @@ spec:
       targetPort: 5353
       name: dns-udp-primary
   selector:
-    app: lab-ns-2
-    service: lab-ns
-    component: lab-ns-recursor
+    id: lab-ns-recursor-2
   type: LoadBalancer
 ---
 apiVersion: v1
@@ -147,6 +142,7 @@ metadata:
     app: lab-ns-2
     service: lab-ns
     component: lab-ns-ui
+    id: lab-ns-ui-2
 spec:
   ports:
     - port: 80
@@ -154,7 +150,5 @@ spec:
       targetPort: 80
       name: ui-tcp
   selector:
-    app: lab-ns-2
-    service: lab-ns
-    component: lab-ns-ui
+    id: lab-ns-ui-2
   type: ClusterIP
