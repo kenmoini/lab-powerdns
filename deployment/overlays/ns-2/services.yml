@@ -87,10 +87,6 @@ metadata:
     app: lab-ns-2
     service: lab-ns
     component: lab-ns-ui
-  annotations:
-    metallb.universe.tf/loadBalancerIPs: 192.168.42.10
-    metallb.universe.tf/address-pool: lab-pool
-    metallb.universe.tf/allow-shared-ip: "key-to-share-192.168.42.10"
 spec:
   ports:
     - port: 80
@@ -101,4 +97,4 @@ spec:
     app: lab-ns-2
     service: lab-ns
     component: lab-ns-ui
-  type: LoadBalancer
+  type: ClusterIP

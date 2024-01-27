@@ -10,6 +10,7 @@ resources:
   - deployment-recursor.yml
   - deployment-ui.yml
   - services.yml
+  - ingress-ui.yml
 
 commonLabels:
   app: lab-ns-2
