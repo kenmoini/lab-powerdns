@@ -1,0 +1,62 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lab-pdns-mysql
+spec:
+  serviceName: lab-pdns-mysql
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lab-pdns-mysql
+  template:
+    metadata:
+      labels:
+        app: lab-pdns-mysql
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                      - lab-pdns-mysql
+              topologyKey: "kubernetes.io/hostname"
+      securityContext:
+        runAsUser: 27
+        fsGroup: 27
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: lab-pdns-mysql
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "0.25"
+            limits:
+              memory: "256Mi"
+              cpu: "0.5"
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/openshift/httpd:latest
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql
+              mountPath: /var/lib/mysql/data
+      volumes:
+        - name: mysql
+          emptyDir:
+            medium: "" #accepted values:  empty str (means node's default medium) or Memory
+            sizeLimit: 1Gi
+  #volumeClaimTemplates:
+  #  - metadata:
+  #      name: mysql
+  #    spec:
+  #      accessModes:
+  #        - ReadWriteOnce
+  #      storageClassName: my-storage-class
+  #      resources:
+  #        requests:
+  #          storage: 1Gi
