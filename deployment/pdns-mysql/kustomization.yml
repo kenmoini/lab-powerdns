@@ -10,3 +10,4 @@ resources:
   - statefulset.yml
   - schema-sync-job-rbac.yml
   - schema-sync-job.yml
+  - networkpolicy.yml

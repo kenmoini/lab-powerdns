@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-pdns-mysql
+spec:
+  podSelector:
+    matchLabels:
+      app: lab-pdns-mysql
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              service: lab-ns
+        - podSelector:
+            matchLabels:
+              component: lab-ns-auth
+      ports:
+        - protocol: TCP
+          port: 3306
