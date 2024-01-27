@@ -21,6 +21,10 @@ spec:
         service: lab-ns
         component: lab-ns-auth
     spec:
+      securityContext:
+        runAsUser: 998
+        runAsGroup: 998
+        fsGroup: 998
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -34,9 +38,6 @@ spec:
               namespaceSelector: {}
       containers:
         - name: lab-ns-auth
-          securityContext:
-            runAsUser: 998
-            fsGroup: 998
           #  capabilities:
           #    add:
           #      - CHOWN

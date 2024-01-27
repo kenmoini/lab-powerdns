@@ -21,6 +21,10 @@ spec:
         service: lab-ns
         component: lab-ns-recursor
     spec:
+      securityContext:
+        runAsUser: 997
+        runAsGroup: 997
+        fsGroup: 997
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -34,9 +38,6 @@ spec:
               namespaceSelector: {}
       containers:
         - name: lab-ns-recursor
-          securityContext:
-            runAsUser: 997
-            fsGroup: 997
           #  capabilities:
           #    add:
           #      - CHOWN
