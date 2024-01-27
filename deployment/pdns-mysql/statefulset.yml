@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: lab-pdns-mysql
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   serviceName: lab-pdns-mysql
   replicas: 1

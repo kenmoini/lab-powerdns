@@ -8,3 +8,5 @@ resources:
   - namespace.yml
   - service.yml
   - statefulset.yml
+  - schema-sync-job-rbac.yml
+  - schema-sync-job.yml

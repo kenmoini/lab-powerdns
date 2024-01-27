@@ -1,0 +1,27 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: lab-dns-mysql-sync-job
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  template:
+    spec:
+      # kubectl create secret docker-registry rh-pull-secret --docker-server=registry.redhat.io --docker-username=$RH_REG_USER --docker-password=$RH_REG_TOKEN --docker-email=ken@kenmoini.com -n lab-dns-mysql
+      imagePullSecrets:
+        - name: rh-pull-secret
+      containers:
+      - name: lab-dns-mysql-sync-job
+        image: registry.redhat.io/openshift4/ose-cli:latest
+        imagePullPolicy: IfNotPresent
+        command:
+          - /bin/bash
+          - -c
+          - |
+            #!/usr/bin/env bash
+
+            kubectl get pods -n lab-dns-mysql -l app=lab-pdns-mysql -o yaml
+
+      serviceAccountName: lab-dns-mysql-sync-job
+      restartPolicy: OnFailure
