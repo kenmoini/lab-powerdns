@@ -2,6 +2,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: recursor-server-config
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 data:
   recursor.conf: |
     forward-zones=kemo.labs.=192.168.42.10:5300

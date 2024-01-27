@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: lab-ns-auth-2
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
   labels:
     app: lab-ns-2
     service: lab-ns
