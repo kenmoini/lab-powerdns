@@ -4,8 +4,8 @@ metadata:
   name: recursor-server-config
 data:
   recursor.conf: |
-    forward-zones=kemo.labs=192.168.42.10:5300
-    forward-zones+=kemo.network=192.168.42.10:5300
+    forward-zones=kemo.labs.=192.168.42.10:5300
+    forward-zones+=kemo.network.=192.168.42.10:5300
     forward-zones-recurse=.=192.168.42.11, .=192.168.42.12
     local-address=0.0.0.0
     local-port=5353
