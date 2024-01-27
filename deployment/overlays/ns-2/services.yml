@@ -101,6 +101,10 @@ spec:
       protocol: TCP
       targetPort: 5353
       name: dns-tcp
+    - port: 53
+      protocol: TCP
+      targetPort: 5353
+      name: dns-tcp-primary
   selector:
     app: lab-ns-2
     service: lab-ns
@@ -125,6 +129,10 @@ spec:
       protocol: UDP
       targetPort: 5353
       name: dns-udp
+    - port: 53
+      protocol: UDP
+      targetPort: 5353
+      name: dns-udp-primary
   selector:
     app: lab-ns-2
     service: lab-ns
