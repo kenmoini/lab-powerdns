@@ -8,6 +8,7 @@ resources:
   - namespace.yml
   - deployment-auth.yml
   - deployment-recursor.yml
+  - deployment-ui.yml
   - services.yml
 
 commonLabels:
