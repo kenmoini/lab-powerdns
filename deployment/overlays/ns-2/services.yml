@@ -17,6 +17,10 @@ spec:
       protocol: TCP
       targetPort: 5300
       name: dns-tcp
+    - port: 5300
+      protocol: UDP
+      targetPort: 5300
+      name: dns-udp
     - port: 8081
       protocol: TCP
       targetPort: 8081
