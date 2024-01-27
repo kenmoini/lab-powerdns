@@ -25,9 +25,15 @@ spec:
 
             kubectl wait --for=condition=ready pod -n lab-dns-mysql -l app=lab-pdns-mysql --timeout=300s
 
+            until kubectl exec -n lab-dns-mysql -it lab-pdns-mysql-0 -- sh -c 'mysqladmin -u $MYSQL_USER --password=$MYSQL_PASSWORD ping 2>&1 | grep -v "Warning"'
+            do
+              echo "Waiting for MySQL to start..."
+              sleep 5
+            done
+
             kubectl exec -n lab-dns-mysql -it lab-pdns-mysql-0 -- sh -c 'mysql -u $MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DATABASE < /opt/app-root/src/mysql-init/schema.sql'
             kubectl exec -n lab-dns-mysql -it lab-pdns-mysql-0 -- sh -c 'mysql -u $MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DATABASE < /opt/app-root/src/mysql-init/enable_fkeys.sql'
             kubectl exec -n lab-dns-mysql -it lab-pdns-mysql-0 -- sh -c 'mysqlshow -u $MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DATABASE;'
 
       serviceAccountName: lab-dns-mysql-sync-job
-      restartPolicy: Never
+      restartPolicy: OnFailure
