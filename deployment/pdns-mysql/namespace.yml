@@ -5,3 +5,5 @@ metadata:
   name: lab-dns-mysql
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
+  labels:
+    app: lab-pdns-mysql

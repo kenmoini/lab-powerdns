@@ -5,6 +5,8 @@ metadata:
   name: lab-pdns-mysql
   annotations:
     argocd.argoproj.io/sync-wave: "3"
+  labels:
+    app: lab-pdns-mysql
 spec:
   serviceName: lab-pdns-mysql
   replicas: 1

@@ -5,6 +5,8 @@ metadata:
   name: lab-dns-mysql-sync-job
   annotations:
     argocd.argoproj.io/sync-wave: "4"
+  labels:
+    app: lab-pdns-mysql
 spec:
   template:
     spec:
@@ -21,7 +23,11 @@ spec:
           - |
             #!/usr/bin/env bash
 
-            kubectl get pods -n lab-dns-mysql -l app=lab-pdns-mysql -o yaml
+            kubectl wait --for=condition=ready pod -n lab-dns-mysql -l app=lab-pdns-mysql --timeout=300s
+
+            kubectl exec -n lab-dns-mysql -it lab-pdns-mysql-0 -- sh -c 'mysql -u $MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DATABASE < /opt/app-root/src/mysql-init/schema.sql'
+            kubectl exec -n lab-dns-mysql -it lab-pdns-mysql-0 -- sh -c 'mysql -u $MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DATABASE < /opt/app-root/src/mysql-init/enable_fkeys.sql'
+            kubectl exec -n lab-dns-mysql -it lab-pdns-mysql-0 -- sh -c 'mysqlshow -u $MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DATABASE;'
 
       serviceAccountName: lab-dns-mysql-sync-job
-      restartPolicy: OnFailure
+      restartPolicy: Never
