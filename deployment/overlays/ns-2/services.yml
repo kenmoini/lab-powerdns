@@ -78,3 +78,27 @@ spec:
     service: lab-ns
     component: lab-ns-recursor
   type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lab-ns-2-ui
+  labels:
+    app: lab-ns-2
+    service: lab-ns
+    component: lab-ns-ui
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.42.10
+    metallb.universe.tf/address-pool: lab-pool
+    metallb.universe.tf/allow-shared-ip: "key-to-share-192.168.42.10"
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+      name: ui-tcp
+  selector:
+    app: lab-ns-2
+    service: lab-ns
+    component: lab-ns-ui
+  type: LoadBalancer
