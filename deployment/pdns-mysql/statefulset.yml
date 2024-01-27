@@ -14,7 +14,8 @@ spec:
       labels:
         app: lab-pdns-mysql
     spec:
-      # kubectl create secret ghcr-pull-secret regcred --docker-server=ghcr.io --docker-username=kenmoini --docker-password=$REG_TOKEN --docker-email=ken@kenmoini.com -n lab-dns-mysql
+      # kubectl create secret docker-registry ghcr-pull-secret --docker-server=ghcr.io --docker-username=kenmoini --docker-password=$REG_TOKEN --docker-email=ken@kenmoini.com -n lab-dns-mysql
+      # kubectl delete pod -n lab-dns-mysql lab-pdns-mysql-0
       imagePullSecrets:
         - name: ghcr-pull-secret
       affinity:
@@ -35,10 +36,10 @@ spec:
         - name: lab-pdns-mysql
           resources:
             requests:
-              memory: "128Mi"
+              memory: "256Mi"
               cpu: "0.25"
             limits:
-              memory: "256Mi"
+              memory: "512Mi"
               cpu: "0.5"
           image: ghcr.io/kenmoini/lab-powerdns:mysql-f65d6e2
           ports:
