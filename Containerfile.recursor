@@ -1,6 +1,7 @@
 # Also shamelessly stolen from Brandon B. Jozsa<bjozsa@redhat.com>
 FROM        quay.io/fedora/fedora:39
 LABEL       description="PowerDNS Recursor Image"
+LABEL       org.opencontainers.image.source = "https://github.com/kenmoini/lab-powerdns"
 RUN         yum -yy install \
                 pdns-recursor \
                 pdns-backend-mysql \

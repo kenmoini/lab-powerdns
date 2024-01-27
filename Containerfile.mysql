@@ -2,6 +2,7 @@
 # Pretty sure DB_DIR_IMPORT does nothing, but I'm leaving it in for now
 FROM registry.redhat.io/rhel9/mysql-80:1-296
 LABEL       description="MySQL Image for PDNS"
+LABEL       org.opencontainers.image.source = "https://github.com/kenmoini/lab-powerdns"
 ENV         MYSQL_PORT=3306 \
             MYSQL_DATABASE=pdns \
             MYSQL_USER=pdnsadmin \
