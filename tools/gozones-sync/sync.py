@@ -46,11 +46,23 @@ def stripCIDR(name):
         name = name.split('/')[0]
     return name
 
+def wrapWithDoubleQuotes(name):
+    if name[0] != '"':
+        name = '"' + name
+    if name[-1] != '"':
+        name = name + '"'
+    return name
+
+# =============================================
+# NS Records
 def processNSRecords(input, defaultTTL):
     anchoredTTLS = {}
     nsRecords = []
     anchoredNSRecords = {}
     nsRRSets = []
+    if 'NS' not in input['records'].keys():
+        return nsRRSets
+
     for ns in input['records']['NS']:
         if ns['anchor'] != "@":
             anchor = addLastDot(ns['anchor'])
@@ -86,11 +98,16 @@ def processNSRecords(input, defaultTTL):
         })
     return nsRRSets
 
+# =============================================
+# A Records
 def processARecords(input, defaultTTL):
     aRecords = []
     anchoredARecords = {}
     aRRSets = []
     anchoredTTLS = {}
+    if 'A' not in input['records'].keys():
+        return aRRSets
+
     for record in input['records']['A']:
         if record['name'] != "@":
             name = addLastDot(record['name'] + '.' + zone['zone'])
@@ -125,6 +142,225 @@ def processARecords(input, defaultTTL):
 
     return aRRSets
 
+# =============================================
+# AAAA Records
+def processAAAARecords(input, defaultTTL):
+    aaaaRecords = []
+    anchoredAAAARecords = {}
+    aaaaRRSets = []
+    anchoredTTLS = {}
+    if 'AAAA' not in input['records'].keys():
+        return aaaaRRSets
+
+    for record in input['records']['AAAA']:
+        if record['name'] != "@":
+            name = addLastDot(record['name'] + '.' + zone['zone'])
+        else:
+            name = addLastDot(input['zone'])
+        anchoredAAAARecords[name] = []
+
+        if "ttl" in record.keys():
+            anchoredTTLS[name] = str(record['ttl'])
+        else:
+            anchoredTTLS[name] = defaultTTL
+    for record in input['records']['AAAA']:
+        if record['name'] != "@":
+            name = addLastDot(record['name'] + '.' + zone['zone'])
+        else:
+            name = addLastDot(input['zone'])
+        anchoredAAAARecords[name].append({
+            'content': stripCIDR(record['value']),
+            'disabled': False
+        })
+
+    # Loop through the anchored A Records
+    for name, aaaaRecords in anchoredAAAARecords.items():
+        recordTTL = anchoredTTLS[name]
+        aaaaRRSets.append({
+            'name': name,
+            'type': 'AAAA',
+            'ttl': recordTTL,
+            'changetype': 'REPLACE',
+            'records': aaaaRecords
+        })
+
+    return aaaaRRSets
+
+# =============================================
+# CNAME Records
+def processCNAMERecords(input, defaultTTL):
+    cnameRecords = []
+    anchoredCNAMERecords = {}
+    cnameRRSets = []
+    anchoredTTLS = {}
+    if 'CNAME' not in input['records'].keys():
+        return cnameRRSets
+
+    for record in input['records']['CNAME']:
+        if record['name'] != "@":
+            name = addLastDot(record['name'] + '.' + zone['zone'])
+        else:
+            name = addLastDot(input['zone'])
+        anchoredCNAMERecords[name] = []
+
+        if "ttl" in record.keys():
+            anchoredTTLS[name] = str(record['ttl'])
+        else:
+            anchoredTTLS[name] = defaultTTL
+    for record in input['records']['CNAME']:
+        if record['name'] != "@":
+            name = addLastDot(record['name'] + '.' + zone['zone'])
+        else:
+            name = addLastDot(input['zone'])
+        anchoredCNAMERecords[name].append({
+            'content': record['value'],
+            'disabled': False
+        })
+
+    # Loop through the anchored A Records
+    for name, cnameRecords in anchoredCNAMERecords.items():
+        recordTTL = anchoredTTLS[name]
+        cnameRRSets.append({
+            'name': name,
+            'type': 'CNAME',
+            'ttl': recordTTL,
+            'changetype': 'REPLACE',
+            'records': cnameRecords
+        })
+
+    return cnameRRSets
+
+# =============================================
+# TXT Records
+def processTXTRecords(input, defaultTTL):
+    txtRecords = []
+    anchoredTXTRecords = {}
+    txtRRSets = []
+    anchoredTTLS = {}
+    if 'TXT' not in input['records'].keys():
+        return txtRRSets
+
+    for record in input['records']['TXT']:
+        if record['name'] != "@":
+            name = addLastDot(record['name'] + '.' + zone['zone'])
+        else:
+            name = addLastDot(input['zone'])
+        anchoredTXTRecords[name] = []
+
+        if "ttl" in record.keys():
+            anchoredTTLS[name] = str(record['ttl'])
+        else:
+            anchoredTTLS[name] = defaultTTL
+    for record in input['records']['TXT']:
+        if record['name'] != "@":
+            name = addLastDot(record['name'] + '.' + zone['zone'])
+        else:
+            name = addLastDot(input['zone'])
+        anchoredTXTRecords[name].append({
+            'content': wrapWithDoubleQuotes(record['value']),
+            'disabled': False
+        })
+
+    # Loop through the anchored A Records
+    for name, txtRecords in anchoredTXTRecords.items():
+        recordTTL = anchoredTTLS[name]
+        txtRRSets.append({
+            'name': name,
+            'type': 'TXT',
+            'ttl': recordTTL,
+            'changetype': 'REPLACE',
+            'records': txtRecords
+        })
+
+    return txtRRSets
+
+# =============================================
+# SRV Records
+def processSRVRecords(input, defaultTTL):
+    srvRecords = []
+    anchoredSRVRecords = {}
+    srvRRSets = []
+    anchoredTTLS = {}
+    if 'SRV' not in input['records'].keys():
+        return srvRRSets
+
+    for record in input['records']['SRV']:
+        if record['name'] != "@":
+            name = addLastDot(record['name'] + '.' + zone['zone'])
+        else:
+            name = addLastDot(input['zone'])
+        anchoredSRVRecords[name] = []
+
+        if "ttl" in record.keys():
+            anchoredTTLS[name] = str(record['ttl'])
+        else:
+            anchoredTTLS[name] = defaultTTL
+    for record in input['records']['SRV']:
+        if record['name'] != "@":
+            name = addLastDot(record['name'] + '.' + zone['zone'])
+        else:
+            name = addLastDot(input['zone'])
+        anchoredSRVRecords[name].append({
+            'content': str(record['priority']) + ' ' + str(record['weight']) + ' ' + str(record['port']) + ' ' + addLastDot(record['value']),
+            'disabled': False
+        })
+
+    # Loop through the anchored A Records
+    for name, srvRecords in anchoredSRVRecords.items():
+        recordTTL = anchoredTTLS[name]
+        srvRRSets.append({
+            'name': name,
+            'type': 'SRV',
+            'ttl': recordTTL,
+            'changetype': 'REPLACE',
+            'records': srvRecords
+        })
+
+    return srvRRSets
+
+# =============================================
+# MX Records
+def processMXRecords(input, defaultTTL):
+    mxRecords = []
+    anchoredMXRecords = {}
+    mxRRSets = []
+    anchoredTTLS = {}
+    if 'MX' not in input['records'].keys():
+        return mxRRSets
+
+    for record in input['records']['MX']:
+        if record['name'] != "@":
+            name = addLastDot(record['name'] + '.' + zone['zone'])
+        else:
+            name = addLastDot(input['zone'])
+        anchoredMXRecords[name] = []
+
+        if "ttl" in record.keys():
+            anchoredTTLS[name] = str(record['ttl'])
+        else:
+            anchoredTTLS[name] = defaultTTL
+    for record in input['records']['MX']:
+        if record['name'] != "@":
+            name = addLastDot(record['name'] + '.' + zone['zone'])
+        else:
+            name = addLastDot(input['zone'])
+        anchoredMXRecords[name].append({
+            'content': str(record['priority']) + ' ' + addLastDot(record['value']),
+            'disabled': False
+        })
+
+    # Loop through the anchored A Records
+    for name, mxRecords in anchoredMXRecords.items():
+        recordTTL = anchoredTTLS[name]
+        mxRRSets.append({
+            'name': name,
+            'type': 'MX',
+            'ttl': recordTTL,
+            'changetype': 'REPLACE',
+            'records': mxRecords
+        })
+
+    return mxRRSets
 
 # =============================================
 # Open the GoZones file
@@ -189,16 +425,19 @@ with open(args.file, "r") as stream:
             # Loop through the NS Records
             nsRRSets = processNSRecords(zone, defaultTTL)
             
-            # Send the request
-            form_body = {
-                'rrsets': nsRRSets
-            }
-
-            response = requests.patch(args.server + '/api/v1/servers/localhost/zones/' + zone['zone'], headers=headers, json=form_body)
-            if response.status_code == 204:
-                print('   - NS Records updated')
+            if len(nsRRSets) == 0:
+                print('   - No NS Records to update')
             else:
-                print(response.json())
+                # Send the request
+                form_body = {
+                    'rrsets': nsRRSets
+                }
+
+                response = requests.patch(args.server + '/api/v1/servers/localhost/zones/' + zone['zone'], headers=headers, json=form_body)
+                if response.status_code == 204:
+                    print('   - NS Records updated')
+                else:
+                    print(response.json())
 
             # =============================================
             # Set the A Records
@@ -206,17 +445,119 @@ with open(args.file, "r") as stream:
             # Loop through the A Records
             aRRSets = processARecords(zone, defaultTTL)
 
-            # Send the request
-            form_body = {
-                'rrsets': aRRSets
-            }
-
-            response = requests.patch(args.server + '/api/v1/servers/localhost/zones/' + zone['zone'], headers=headers, json=form_body)
-            if response.status_code == 204:
-                print('   - A Records updated')
+            if len(aRRSets) == 0:
+                print('   - No A Records to update')
             else:
-                print(response.json())
+                # Send the request
+                form_body = {
+                    'rrsets': aRRSets
+                }
 
-        #print(yaml.safe_load(stream))
+                response = requests.patch(args.server + '/api/v1/servers/localhost/zones/' + zone['zone'], headers=headers, json=form_body)
+                if response.status_code == 204:
+                    print('   - A Records updated')
+                else:
+                    print(response.json())
+
+            # =============================================
+            # Set the AAAA Records
+            print(' - Setting AAAA Records')
+            # Loop through the AAAA Records
+            aaaaRRSets = processAAAARecords(zone, defaultTTL)
+
+            if len(aaaaRRSets) == 0:
+                print('   - No AAAA Records to update')
+            else:
+                # Send the request
+                form_body = {
+                    'rrsets': aaaaRRSets
+                }
+
+                response = requests.patch(args.server + '/api/v1/servers/localhost/zones/' + zone['zone'], headers=headers, json=form_body)
+                if response.status_code == 204:
+                    print('   - AAAA Records updated')
+                else:
+                    print(response.json())
+
+            # =============================================
+            # Set the CNAME Records
+            print(' - Setting CNAME Records')
+            # Loop through the CNAME Records
+            cnameRRSets = processCNAMERecords(zone, defaultTTL)
+
+            if len(cnameRRSets) == 0:
+                print('   - No CNAME Records to update')
+            else:
+                # Send the request
+                form_body = {
+                    'rrsets': cnameRRSets
+                }
+
+                response = requests.patch(args.server + '/api/v1/servers/localhost/zones/' + zone['zone'], headers=headers, json=form_body)
+                if response.status_code == 204:
+                    print('   - CNAME Records updated')
+                else:
+                    print(response.json())
+
+            # =============================================
+            # Set the TXT Records
+            print(' - Setting TXT Records')
+            # Loop through the TXT Records
+            txtRRSets = processTXTRecords(zone, defaultTTL)
+
+            if len(txtRRSets) == 0:
+                print('   - No TXT Records to update')
+            else:
+                # Send the request
+                form_body = {
+                    'rrsets': txtRRSets
+                }
+
+                response = requests.patch(args.server + '/api/v1/servers/localhost/zones/' + zone['zone'], headers=headers, json=form_body)
+                if response.status_code == 204:
+                    print('   - TXT Records updated')
+                else:
+                    print(response.json())
+
+            # =============================================
+            # Set the SRV Records
+            print(' - Setting SRV Records')
+            # Loop through the SRV Records
+            srvRRSets = processSRVRecords(zone, defaultTTL)
+
+            if len(srvRRSets) == 0:
+                print('   - No SRV Records to update')
+            else:
+                # Send the request
+                form_body = {
+                    'rrsets': srvRRSets
+                }
+
+                response = requests.patch(args.server + '/api/v1/servers/localhost/zones/' + zone['zone'], headers=headers, json=form_body)
+                if response.status_code == 204:
+                    print('   - SRV Records updated')
+                else:
+                    print(response.json())
+
+            # =============================================
+            # Set the MX Records
+            print(' - Setting MX Records')
+            # Loop through the MX Records
+            mxRRSets = processMXRecords(zone, defaultTTL)
+
+            if len(mxRRSets) == 0:
+                print('   - No MX Records to update')
+            else:
+                # Send the request
+                form_body = {
+                    'rrsets': mxRRSets
+                }
+
+                response = requests.patch(args.server + '/api/v1/servers/localhost/zones/' + zone['zone'], headers=headers, json=form_body)
+                if response.status_code == 204:
+                    print('   - MX Records updated')
+                else:
+                    print(response.json())
+
     except yaml.YAMLError as exc:
         print(exc)
