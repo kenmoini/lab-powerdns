@@ -34,6 +34,58 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: lab-ns-2-auth-tcp-ext
+  labels:
+    app: lab-ns-2
+    service: lab-ns
+    component: lab-ns-auth
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.42.10
+    metallb.universe.tf/address-pool: lab-pool
+    metallb.universe.tf/allow-shared-ip: "key-to-share-192.168.42.10"
+spec:
+  ports:
+    - port: 5300
+      protocol: TCP
+      targetPort: 5300
+      name: dns-tcp
+    - port: 8081
+      protocol: TCP
+      targetPort: 8081
+      name: api-tcp
+  selector:
+    app: lab-ns-2
+    service: lab-ns
+    component: lab-ns-auth
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lab-ns-2-auth-udp-ext
+  labels:
+    app: lab-ns-2
+    service: lab-ns
+    component: lab-ns-auth
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.42.10
+    metallb.universe.tf/address-pool: lab-pool
+    metallb.universe.tf/allow-shared-ip: "key-to-share-192.168.42.10"
+spec:
+  ports:
+    - port: 5300
+      protocol: UDP
+      targetPort: 5300
+      name: dns-udp
+  selector:
+    app: lab-ns-2
+    service: lab-ns
+    component: lab-ns-auth
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: lab-ns-2-recursor-tcp
   labels:
     app: lab-ns-2
