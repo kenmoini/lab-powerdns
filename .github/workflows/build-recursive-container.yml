@@ -1,11 +1,11 @@
-name: Build Container - PowerDNS Authoritative
+name: Build Container - PowerDNS Recursor
 on:
   push:
     branches:
       - main
     paths:
-      - Containerfile.auth
-      - .github/workflows/build-auth-container.yml
+      - Containerfile.recursor
+      - .github/workflows/build-recursive-container.yml
 
   # Schedule workflow run at 00:00 on Sunday
   schedule:
@@ -62,7 +62,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        file: ./Containerfile.auth
+        file: ./Containerfile.recursor
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
         push: true
