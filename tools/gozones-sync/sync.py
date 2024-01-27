@@ -392,7 +392,7 @@ with open(args.file, "r") as stream:
                 #print(response.json())
             else:
                 # Unknown error
-                print('Error while checking for zone: ' + entry['name'])
+                print('Error while checking for zone: ' + entry['name'] - ' - ' + response.json())
 
             # =============================================
             # Set the SOA Record
@@ -422,7 +422,6 @@ with open(args.file, "r") as stream:
             # =============================================
             # Set the NS Records
             print(' - Setting NS Records')
-            # Loop through the NS Records
             nsRRSets = processNSRecords(zone, defaultTTL)
             
             if len(nsRRSets) == 0:
@@ -442,7 +441,6 @@ with open(args.file, "r") as stream:
             # =============================================
             # Set the A Records
             print(' - Setting A Records')
-            # Loop through the A Records
             aRRSets = processARecords(zone, defaultTTL)
 
             if len(aRRSets) == 0:
@@ -462,7 +460,6 @@ with open(args.file, "r") as stream:
             # =============================================
             # Set the AAAA Records
             print(' - Setting AAAA Records')
-            # Loop through the AAAA Records
             aaaaRRSets = processAAAARecords(zone, defaultTTL)
 
             if len(aaaaRRSets) == 0:
@@ -482,7 +479,6 @@ with open(args.file, "r") as stream:
             # =============================================
             # Set the CNAME Records
             print(' - Setting CNAME Records')
-            # Loop through the CNAME Records
             cnameRRSets = processCNAMERecords(zone, defaultTTL)
 
             if len(cnameRRSets) == 0:
@@ -502,7 +498,6 @@ with open(args.file, "r") as stream:
             # =============================================
             # Set the TXT Records
             print(' - Setting TXT Records')
-            # Loop through the TXT Records
             txtRRSets = processTXTRecords(zone, defaultTTL)
 
             if len(txtRRSets) == 0:
@@ -522,7 +517,6 @@ with open(args.file, "r") as stream:
             # =============================================
             # Set the SRV Records
             print(' - Setting SRV Records')
-            # Loop through the SRV Records
             srvRRSets = processSRVRecords(zone, defaultTTL)
 
             if len(srvRRSets) == 0:
@@ -542,7 +536,6 @@ with open(args.file, "r") as stream:
             # =============================================
             # Set the MX Records
             print(' - Setting MX Records')
-            # Loop through the MX Records
             mxRRSets = processMXRecords(zone, defaultTTL)
 
             if len(mxRRSets) == 0:
