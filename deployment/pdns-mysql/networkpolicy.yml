@@ -16,10 +16,10 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              service: lab-nss
+              service: lab-ns
         - podSelector:
             matchLabels:
-              component: lab-ns-auths
+              component: lab-ns-auth
       ports:
         - protocol: TCP
           port: 3306
