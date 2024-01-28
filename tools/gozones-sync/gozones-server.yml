@@ -823,7 +823,7 @@ dns:
           - name: sno
             value: 192.168.70.79
           - name: letit.sno
-            value: 192.168.70.79/24
+            value: 192.168.71.79/23
           - name: api.sno
             value: 192.168.70.79
           - name: api-int.sno
