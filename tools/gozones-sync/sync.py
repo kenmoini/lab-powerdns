@@ -369,8 +369,8 @@ with open(args.file, "r") as stream:
         yaml_data = yaml.safe_load(stream)
         # Loop through the YAML file .dns.zones entries
         for zone in yaml_data['dns']['zones']:
-            # Check if the zone exists
             #print(zone)
+            # Check if the zone exists
             print('=====================================')
             print("Checking for Zone: " + zone['zone'])
             response = requests.get(args.server + '/api/v1/servers/localhost/zones/' + zone['zone'], headers=headers)
@@ -392,7 +392,7 @@ with open(args.file, "r") as stream:
                 #print(response.json())
             else:
                 # Unknown error
-                print('Error while checking for zone: ' + entry['name'] - ' - ' + response.json())
+                print('Error while checking for zone: ' + zone['name'] - ' - ' + response.json())
 
             # =============================================
             # Set the SOA Record
