@@ -6,6 +6,7 @@ namespace: lab-ns-2
 resources:
   - ../../base/
   - namespace.yml
+  - pvc-ui.yml
   - configmap-recursor-server.yml
   - deployment-auth.yml
   - deployment-recursor.yml

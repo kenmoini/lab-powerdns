@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-data
+  name: pdns-2-ui-data
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
