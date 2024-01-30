@@ -11,3 +11,4 @@ resources:
   - schema-sync-job-rbac.yml
   - schema-sync-job.yml
   - networkpolicy.yml
+  - pvc.yml

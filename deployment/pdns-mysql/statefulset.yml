@@ -50,13 +50,12 @@ spec:
             - containerPort: 3306
               name: mysql
           volumeMounts:
-            - name: mysql
+            - name: mysql-data
               mountPath: /var/lib/mysql/data
       volumes:
-        - name: mysql
-          emptyDir:
-            medium: "" #accepted values:  empty str (means node's default medium) or Memory
-            sizeLimit: 1Gi
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: mysql-data
   #volumeClaimTemplates:
   #  - metadata:
   #      name: mysql
