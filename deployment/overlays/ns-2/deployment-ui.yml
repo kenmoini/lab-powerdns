@@ -68,3 +68,10 @@ spec:
           image: docker.io/powerdnsadmin/pda-legacy:latest
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: ui-data
+              mountPath: /data
+      volumes:
+        - name: ui-data
+          persistentVolumeClaim:
+            claimName: pdns-2-ui-data
