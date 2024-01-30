@@ -1,0 +1,77 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-ns-recursor-1
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  labels:
+    app: lab-ns-1
+    service: lab-ns
+    component: lab-ns-recursor
+    id: lab-ns-recursor-1
+spec:
+  selector:
+    matchLabels:
+      app: lab-ns-1
+      service: lab-ns
+      component: lab-ns-recursor
+      id: lab-ns-recursor-1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lab-ns-1
+        service: lab-ns
+        component: lab-ns-recursor
+        id: lab-ns-recursor-1
+    spec:
+      securityContext:
+        runAsUser: 997
+        runAsGroup: 997
+        fsGroup: 997
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - lab-ns-1
+              topologyKey: "kubernetes.io/hostname"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "component"
+                    operator: In
+                    values:
+                      - lab-ns-recursor
+              topologyKey: "kubernetes.io/hostname"
+              namespaceSelector: {}
+      containers:
+        - name: lab-ns-recursor
+          #  capabilities:
+          #    add:
+          #      - CHOWN
+          #      - NET_BIND_SERVICE
+          #      - NET_ADMIN
+          #      - SETFCAP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          image: quay.io/kenmoini/pdns-recursor:e41483e
+          ports:
+            - containerPort: 5353
+          volumeMounts:
+            - name: recursor-server-config
+              mountPath: /etc/pdns-recursor
+      volumes:
+        - name: recursor-server-config
+          configMap:
+            name: recursor-server-config

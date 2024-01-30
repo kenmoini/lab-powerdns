@@ -1,0 +1,78 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-ns-auth-1
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  labels:
+    app: lab-ns-1
+    service: lab-ns
+    component: lab-ns-auth
+    id: lab-ns-auth-1
+spec:
+  selector:
+    matchLabels:
+      app: lab-ns-1
+      service: lab-ns
+      component: lab-ns-auth
+      id: lab-ns-auth-1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lab-ns-1
+        service: lab-ns
+        component: lab-ns-auth
+        id: lab-ns-auth-1
+    spec:
+      securityContext:
+        runAsUser: 998
+        runAsGroup: 998
+        fsGroup: 998
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - lab-ns-1
+              topologyKey: "kubernetes.io/hostname"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "component"
+                    operator: In
+                    values:
+                      - lab-ns-auth
+              topologyKey: "kubernetes.io/hostname"
+              namespaceSelector: {}
+      containers:
+        - name: lab-ns-auth
+          #  capabilities:
+          #    add:
+          #      - CHOWN
+          #      - NET_BIND_SERVICE
+          #      - NET_ADMIN
+          #      - SETFCAP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          image: quay.io/kenmoini/pdns-auth:027dfdb
+          ports:
+            - containerPort: 5300
+            - containerPort: 8081
+          volumeMounts:
+            - name: auth-server-config
+              mountPath: /etc/pdns
+      volumes:
+        - name: auth-server-config
+          configMap:
+            name: auth-server-config

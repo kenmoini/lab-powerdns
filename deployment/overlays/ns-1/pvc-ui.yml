@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pdns-1-ui-data
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    app: lab-ns-1
+    service: lab-ns
+    component: lab-ns-ui
+    id: lab-ns-ui-1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  storageClassName: bulk-ssd
+  resources:
+    requests:
+      storage: 1Gi
