@@ -11,6 +11,8 @@ metadata:
     component: lab-ns-ui
     id: lab-ns-ui-2
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: lab-ns-2
