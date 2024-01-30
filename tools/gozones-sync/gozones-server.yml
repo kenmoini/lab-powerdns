@@ -841,19 +841,19 @@ dns:
           - name: "*.apps.taco-bell-3node-supreme"
             value: 192.168.70.81
 
-        MX:
-          - name: '@'
-            priority: 1
-            value: ASPMX.L.GOOGLE.COM.
-          - name: '@'
-            priority: 5
-            value: ALT1.ASPMX.L.GOOGLE.COM.
-          - name: '@'
-            priority: 5
-            value: ALT2.ASPMX.L.GOOGLE.COM.
-          - name: '@'
-            priority: 10
-            value: ALT3.ASPMX.L.GOOGLE.COM.
-          - name: '@'
-            priority: 10
-            value: ALT4.ASPMX.L.GOOGLE.COM.
+#        MX:
+#          - name: '@'
+#            priority: 1
+#            value: ASPMX.L.GOOGLE.COM.
+#          - name: '@'
+#            priority: 5
+#            value: ALT1.ASPMX.L.GOOGLE.COM.
+#          - name: '@'
+#            priority: 5
+#            value: ALT2.ASPMX.L.GOOGLE.COM.
+#          - name: '@'
+#            priority: 10
+#            value: ALT3.ASPMX.L.GOOGLE.COM.
+#          - name: '@'
+#            priority: 10
+#            value: ALT4.ASPMX.L.GOOGLE.COM.
