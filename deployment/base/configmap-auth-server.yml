@@ -30,6 +30,6 @@ data:
     enable-lua-records=yes
     cache-ttl=0
     negquery-cache-ttl=10
-    log-dns-queries=yes
-    logging-facility=4
-    loglevel=4
+    #log-dns-queries=yes
+    #logging-facility=4
+    #loglevel=4
