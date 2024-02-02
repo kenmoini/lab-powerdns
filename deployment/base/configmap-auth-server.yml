@@ -28,3 +28,4 @@ data:
     default-soa-edit=INCEPTION-INCREMENT
     default-soa-content=ns1.@ admin.@ 0 10800 3600 604800 3600
     enable-lua-records=yes
+    cache-ttl=0
