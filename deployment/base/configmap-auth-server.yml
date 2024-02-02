@@ -29,3 +29,4 @@ data:
     default-soa-content=ns1.@ admin.@ 0 10800 3600 604800 3600
     enable-lua-records=yes
     cache-ttl=0
+    negquery-cache-ttl=10
