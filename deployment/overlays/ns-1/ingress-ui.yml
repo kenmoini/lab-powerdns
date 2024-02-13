@@ -12,6 +12,9 @@ metadata:
     id: lab-ns-ui-1
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - ns1.apps.k8s.kemo.labs
   rules:
     - host: ns1.apps.k8s.kemo.labs
       http:
@@ -37,6 +40,9 @@ metadata:
     id: lab-ns-auth-1
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - ns1-api.apps.k8s.kemo.labs
   rules:
     - host: ns1-api.apps.k8s.kemo.labs
       http:
