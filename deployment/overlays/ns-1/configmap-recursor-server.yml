@@ -26,6 +26,7 @@ data:
     dnssec=off
     forward-zones=kemo.labs.=192.168.42.9:5300
     forward-zones+=kemo.network.=192.168.42.9:5300
+    forward-zones+=kemo.edge.=192.168.99.2:53
     forward-zones+=vdom.local.=192.168.43.12:53
     forward-zones+=10.in-addr.arpa.=192.168.42.9:5300
     forward-zones+=16.172.in-addr.arpa.=192.168.42.9:5300
