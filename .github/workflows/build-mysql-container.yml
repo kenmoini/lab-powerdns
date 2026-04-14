@@ -53,14 +53,14 @@ jobs:
           type=raw,value=mysql-latest
 
     - name: Login to GitHub Container Registry
-      uses: docker/login-action@v3
+      uses: docker/login-action@v4
       with:
         registry: ghcr.io
         username: "${{ github.actor }}"
         password: "${{ secrets.GITHUB_TOKEN }}"
 
     - name: Login to Red Hat Container Registry
-      uses: docker/login-action@v3
+      uses: docker/login-action@v4
       with:
         registry: registry.redhat.io
         username: "${{ secrets.RH_REGISTRY_USERNAME }}"
