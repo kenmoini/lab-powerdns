@@ -1,5 +1,5 @@
 # Shamelessly stolen from  Brandon B. Jozsa<bjozsa@redhat.com>
-FROM        quay.io/fedora/fedora:39
+FROM        quay.io/fedora/fedora:43
 LABEL       description="PowerDNS Image"
 LABEL       org.opencontainers.image.source = "https://github.com/kenmoini/lab-powerdns"
 RUN         yum -yy install \
