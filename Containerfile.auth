@@ -2,7 +2,8 @@
 FROM        quay.io/fedora/fedora:43
 LABEL       description="PowerDNS Image"
 LABEL       org.opencontainers.image.source = "https://github.com/kenmoini/lab-powerdns"
-RUN         yum -yy install \
+RUN         yum update -y && \
+            yum -yy install \
                 pdns \
                 pdns-backend-mysql \
                 bind-utils && \
