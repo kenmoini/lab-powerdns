@@ -73,6 +73,7 @@ jobs:
         file: ./Containerfile.mysql
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
+        provenance: false
         push: true
         #cache-from: type=gha
         #cache-to: type=gha,mode=max
